@@ -1,0 +1,22 @@
+
+.item {
+	width: 20% !important;
+	background-color: pink !important;
+}
+
+.image	{
+	border: 1px solid green;
+}
+
+.content	{
+	text-align: center;
+}
+
+.name	{
+	font-family: sans-serif;
+	font-size: 0.8em !important;
+}
+
+#inventory_grid	{
+	width:50%;
+}

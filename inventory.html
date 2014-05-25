@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Neopets Mock-Up Funsies - Inventory</title>
+  <link rel='stylesheet' type='text/css' href='semantic/css/semantic.min.css'/>
+  <link rel='stylesheet' type='text/css' href='assets/inventory.css'/>
+
+  <!-- <link href="assets/favicon.ico" rel="icon" type="image/x-icon" /> -->
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="semantic/javascript/semantic.min.js"></script>
+  <script type="text/javascript" src="js/inventory.js"></script>
+</head>
+<body>
+  <!-- Inventory Stuff -->
+  <table id="inventory_grid">
+  </table>
+
+  <!-- Item Action Menu -->
+  <div id="item_action_menu">
+    <h4 id="num_items_selected_txt">You have 0 item(s) selected.</h4>
+    <ul>
+      <li id="use">
+        <!-- populated by js -->
+      </li>
+      <li id="sell">
+        <i class="money icon"></i>sell
+        <ul id="sell_sub_menu">
+          <li>
+            <i class="cart icon"></i>shop
+          </li>
+          <li>
+            <i class="legal icon"></i>auction
+          </li>
+        </ul>
+      </li>
+      <li id="sdb">
+        <i class="archive icon"></i>deposit
+      </li>      
+      <li id="display">
+        <i class="photo icon"></i>display
+      </li>
+      <li id="donate">
+        <i class="gift icon"></i>donate
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
+
+    <!--  
+      { } use item
+          { } neopet1
+          { } neopet2 ..
+      { } store item
+          { } sdb
+          { } gallery
+      { } sell item
+          { } shop
+          <i class="cart icon"></i>
+          { } auction
+          <i class="legal icon"></i>
+      { } give away
+          { } donate
+          { } give to friend
+    -->

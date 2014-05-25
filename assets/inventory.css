@@ -1,0 +1,37 @@
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+  /* Needed for mobile WebKit */
+  -moz-box-sizing: border-box;
+  /* Needed for Firefox */
+  box-sizing: border-box; }
+
+/*****************/
+/*** CONSTANTS ***/
+/*****************/
+/**********************/
+/*** INVENTORY VIEW ***/
+/**********************/
+table {
+  background-color: #e8e8e8;
+  table-layout: fixed;
+  text-align: center;
+  vertical-align: top;
+  width: 60%; }
+
+td {
+  vertical-align: top;
+  background-color: white; }
+
+.item {
+  min-height: 100%; }
+
+.item .image {
+  margin-bottom: 0px; }
+
+.item.selected {
+  background-color: magenta; }
+
+.item .name {
+  font: bold 0.8em sans-serif !important;
+  font-color: black;
+  margin-top: 0px; }
