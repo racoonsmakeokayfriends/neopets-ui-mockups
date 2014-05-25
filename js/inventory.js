@@ -195,13 +195,21 @@ $(document).ready(function()    {
     }
   }
 
-  function make_ul_of_pets()  {
-    var html_txt = '<ul>';
-    for (var i=0; i<user_pets.length; i++)  {
-      html_txt += '<li>' + user_pets[i] + '</li>';
+  function make_ul_of_pets() {
+    var html_txt = '<ul id="use_pet_list">';
+    for (var i=0; i<user_pets.length; i++) {
+      html_txt += '<li value="' + i + '">' + user_pets[i] + '</li>';
     }
     html_txt += '</ul>';
     return html_txt;
+  }
+
+  function is_pet_specific(item)  {
+    var use_txt = get_use_text(item.item_type);
+    if (use_txt == -1)  {
+      return false;
+    }
+    return use_txt.endsWith('...');
   }
 
   // if x is in list, remove it, otherwise put it in
@@ -216,9 +224,6 @@ $(document).ready(function()    {
     }
     return new_list;
   }
-
-
-
 
   /*************************
    *** DISPLAY FUNCTIONS ***
@@ -265,8 +270,8 @@ $(document).ready(function()    {
     items = make_item_objects();
     populate_inventory_grid();
 
-    // only want this to be shown when 1 item is selected
-    $('#item_action_menu #use').hide();
+    $('#item_action_menu').hide();
+
   }
 
   init();
@@ -284,40 +289,58 @@ $(document).ready(function()    {
     else  {
       var use_html = '<i class="' + get_type_icon(item.item_type) + ' icon"></i>';
       use_html += use_txt;
-      if (use_txt.endsWith('...'))  {
+      if (use_html.endsWith('...')) {
         use_html += make_ul_of_pets();
       }
-
       $('#item_action_menu #use').html(use_html);      
     }
   }
 
   // TODO: fix the god damn unequal height issue, preferrably
   // without murdering anyone.
-  $('#inventory_grid .item').click(function() {
-    console.log('butts');
+  $(document).on('click','#inventory_grid .item', function() {
     $(this).toggleClass('selected');
     var item_value = parseInt($(this).attr('value'));
     selected_items = toggle_list(item_value,selected_items);
 
     // change item action menu accordingly
-    $('#num_items_selected_txt').html('You have ' + selected_items.length + ' item(s) selected.');
-    if (selected_items.length == 1) {
-      $('#item_action_menu #use').show();
-      format_use_action(items[item_value]);
+    if (selected_items.length == 0) {
+      $('#item_action_menu').hide();      
     }
     else  {
-      $('#item_action_menu #use').hide();
+      $('#item_action_menu').show();
+      $('#num_items_selected_txt').html('You have ' + selected_items.length + ' item(s) selected.');
+      if (selected_items.length == 1) {
+        $('#item_action_menu #use').show();
+        format_use_action(items[selected_items[0]]);
+      }
+      else  {
+        $('#item_action_menu #use').hide();
+      }      
     }
+
   });
 
   /***** 'USE' ITEM *****/
   $('#item_action_menu #use').click(function()  {
-    use_item();
+    // if this item is used by a specific pet
+    var item_type = items[selected_items[0]].item_type;
+    if (is_pet_specific(items[selected_items[0]])) {
+      // do nothing I think
+    }
+    else  {
+      use_item();
+    }
   });
 
-  function use_item()  {
+  $(document).on('click','#use_pet_list li', function() {
+    var pet_id = $(this).attr('value');
+    use_item(pet_id);
+  });
 
+  function use_item(pet_id)  {
+    var item = selected_items[0];
+    remove_item();
   }
 
   /***** 'SELL' ITEM *****/
@@ -371,7 +394,8 @@ $(document).ready(function()    {
     }
     $('#inventory_grid').html('');
     populate_inventory_grid();
-    $('#num_items_selected_txt').html('You have 0 item(s) selected.')
+    $('#item_action_menu').hide();
+    selected_items = [];
   }
 
   /***************
@@ -405,19 +429,32 @@ $(document).ready(function()    {
   {x} only show 'use' option when exactly one item is selected
   {x} make a item_type to use text function
   {x} when 'sell' is selected, ask which type of sell
-  { } do intutive stuff with shop/auction option
+  
   {x} make 'use' text fit with the selected item's item type
   {x} when 'use' is selected, ask which pet (if applicable)
-  { } fix the bug where if you select items A then B and unselect A
+  {x} fix the bug where if you select items A then B and unselect A
       B's use text should be the one displayed
   { } should sort item_type by uses where item is gone when used
       { } think about partially used like omelette/jelly
       { } think about random events like broken toy
-  { } 'delete' items appropriately (for non-use/sell actions)
+  {x} 'delete' items appropriately (for non-use/sell actions)
       NOTE: this is just a mockup, so it would have real actions instead of just removing
+  {x} fix bug where clicking magically removes non-selected items
+  { } do intutive stuff with shop/auction option modal dialog
+  { } auction dialog:
+    [ ] start price (np)
+    [ ] min increment (np)
+    [ ] auction length (spinner maybe?)
+    [ ] neofriends only?
+    [ ] submit
+  { } confirmation on donate item dialog
+  { } need to get rid of tooltip for dialog >.<
+  Usability+CSS TODO:
+  { } action menu should be more button-y
   MAYBE TODO:
   { } have filter by item type
-  { } put undo feature    
+  { } put undo feature
+    
 */
 
 /* NOTES:
@@ -440,4 +477,6 @@ $(document).ready(function()    {
     Combine toys/games + musical instruments? DID
     Combine gift/school/special?
     Add petpetpet category?
+  General:
+    pets would be ordered by time obtained by user
 */
